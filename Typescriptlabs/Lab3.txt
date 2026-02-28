@@ -1,0 +1,11 @@
+Javascript:
+1. It allows dynamic typing
+2. Errors at runtime
+3. Less safe
+
+Type Script:
+1. It allows static typing
+2. Errors at compile time
+3. More safe
+
+TypeScript gives errors earlier because it checks types before running the code.
