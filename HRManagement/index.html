@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HRPro - Home</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav id="navbar">
+    <div class="logo">HRPro</div>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="employees.html">Employees</a></li>
+      <li><a href="attendance.html">Attendance</a></li>
+      <li><a href="payroll.html">Payroll</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="auth-buttons">
+      <button id="loginBtn" onclick="location.href='login.html'">Login</button>
+      <button id="signupBtn" onclick="location.href='signup.html'">Signup</button>
+      <button id="logoutBtn" style="display:none;">Logout</button>
+    </div>
+  </nav>
+
+  <section class="home">
+    <h1 style="text-align:center; margin-top:20px;">Welcome to HRPro</h1>
+    <div class="stats">
+      <div>
+        <h2>Total Employees</h2>
+        <p id="totalEmployees">0</p>
+      </div>
+      <div>
+        <h2>Attendance Today</h2>
+        <p id="attendanceToday">0</p>
+      </div>
+      <div>
+        <h2>Payroll Summary</h2>
+        <p id="payrollSummary">0</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Company Address: 123 HRPro Street, City</p>
+    <p>Working Days: Mon-Fri | Timings: 9am - 6pm</p>
+    <p>Support: hr@hrpro.com</p>
+    <p>Copyright © 2026 HRPro</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Load stats dynamically
+    const employees = JSON.parse(localStorage.getItem("employees")) || [];
+    const attendance = JSON.parse(localStorage.getItem("attendance")) || [];
+    const payroll = JSON.parse(localStorage.getItem("payroll")) || [];
+
+    document.getElementById("totalEmployees").innerText = employees.length;
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById("attendanceToday").innerText = attendance.filter(a => a.date===today).length;
+    document.getElementById("payrollSummary").innerText = payroll.reduce((sum,p)=>sum+p.netSalary,0);
+  </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cure Clinic</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <main>
+        <h1>Sign Up</h1>
+        <div class="input">
+            <p>Name</p>
+            <input type="text" id="name" placeholder="Enter your name">
+        </div>
+        <div class="input">
+            <p>Email</p>
+            <input type="email" id="mail" placeholder="Enter your email">
+        </div>
+        <div class="input">
+            <p>Password</p>
+            <input type="password" id="pass" placeholder="Enter your password">
+        </div>
+        <div class="input">
+            <p id="c-pass">Confirm Password</p>
+            <input type="password" id="Confirmpass" placeholder="Confirm Your password">
+        </div>
+        <button class="btn" onclick="validate()">Sign up</button>
+        <div class="auth-link">
+            <p id="m-msg"></p>
+        </div>
+        <div class="auth-link">
+            <p>Already have an account ?</p>
+            <p id="link"><a href="login.html">Login</a> </p>
+        </div>
+    </main>
+</body>
+<script src="signup.js"></script>
+</html>

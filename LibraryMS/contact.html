@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Contact - MyLibrary</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav id="navbar">
+  <div class="logo">MyLibrary</div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="books.html">Books</a></li>
+    <li><a href="issued.html">Issued Books</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+  <div class="auth-buttons">
+    <button id="loginBtn" onclick="location.href='login.html'">Login</button>
+    <button id="signupBtn" onclick="location.href='signup.html'">Signup</button>
+    <button id="logoutBtn" style="display:none;">Logout</button>
+  </div>
+</nav>
+
+<form id="contactForm">
+  <h2>Contact Us</h2>
+  <input type="text" id="contactName" placeholder="Your Name" required>
+  <input type="email" id="contactEmail" placeholder="Your Email" required>
+  <textarea id="contactMessage" placeholder="Your Message" rows="5" required></textarea>
+  <button type="submit">Send Message</button>
+</form>
+
+<footer>
+  <p>Library Address: 123 Library Lane, City</p>
+  <p>Working Days: Mon-Fri | 9am-6pm</p>
+  <p>Support: support@mylibrary.com</p>
+  <p>Copyright © 2026 MyLibrary</p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+const contactForm = document.getElementById("contactForm");
+
+contactForm.addEventListener("submit",(e)=>{
+  e.preventDefault();
+  const name = document.getElementById("contactName").value.trim();
+  const email = document.getElementById("contactEmail").value.trim();
+  const message = document.getElementById("contactMessage").value.trim();
+
+  if(!name || !email || !message) return alert("All fields are required");
+  if(!/\S+@\S+\.\S+/.test(email)) return alert("Invalid email");
+
+  // Store in localStorage
+  let messages = JSON.parse(localStorage.getItem("messages")) || [];
+  messages.push({name,email,message,date:new Date().toISOString()});
+  localStorage.setItem("messages",JSON.stringify(messages));
+
+  alert("Message sent successfully!");
+  contactForm.reset();
+});
+</script>
+</body>
+</html>

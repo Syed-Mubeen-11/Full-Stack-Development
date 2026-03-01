@@ -1,0 +1,52 @@
+/* Reset basic spacing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Page background */
+body {
+ background-color: #3b70f5;
+  color: #ffffff;
+  line-height: 1.6;
+}
+
+/* Common section style */
+.about-section,
+.contact-section {
+  max-width: 800px;
+  margin: 80px auto;
+  padding: 40px;
+  background-color: #0e48f7;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings */
+.about-section h1,
+.contact-section h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #fff7f7;
+}
+
+/* Paragraphs */
+.about-section p,
+.contact-section p {
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+/* Contact info box */
+.contact-info {
+  margin-top: 20px;
+  background-color:  #6fb4fd;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.contact-info p {
+  margin-bottom: 10px;
+}

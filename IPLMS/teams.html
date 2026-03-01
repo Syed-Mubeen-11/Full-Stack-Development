@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Teams - IPLStats</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav id="navbar">
+  <div class="logo">IPLStats</div>
+</nav>
+
+<h2 style="text-align:center;">IPL Teams</h2>
+
+<input type="text" id="searchTeam" placeholder="Search team by name" style="display:block; margin:10px auto; padding:8px; width:300px;">
+
+<table id="teamsTable">
+  <thead>
+    <tr>
+      <th>Logo</th><th>Name</th><th>Captain</th><th>Home Ground</th><th>Wins/Matches</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<footer>
+  <p>Official IPL website: <a href="https://www.iplt20.com" target="_blank" style="color:#fff">IPL T20</a></p>
+  <p>Contact: support@iplstats.com</p>
+  <p>Copyright © 2026 IPLStats</p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+const tbodyTeams = document.querySelector("#teamsTable tbody");
+
+function renderTeams(filter=""){
+  tbodyTeams.innerHTML="";
+  teams.filter(t=>t.name.toLowerCase().includes(filter.toLowerCase()))
+       .forEach(team=>{
+         const tr = document.createElement("tr");
+         tr.innerHTML=`<td><img src="${team.logo}" style="width:50px"></td>
+                       <td>${team.name}</td>
+                       <td>${team.captain}</td>
+                       <td>${team.home}</td>
+                       <td>${team.wins}/${team.matches}</td>`;
+         tbodyTeams.appendChild(tr);
+       });
+}
+
+document.getElementById("searchTeam").addEventListener("input",(e)=>{
+  renderTeams(e.target.value);
+});
+
+renderTeams();
+</script>
+</body>
+</html>

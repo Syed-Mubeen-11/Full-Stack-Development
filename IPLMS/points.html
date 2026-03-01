@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Points Table - IPLStats</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav id="navbar">
+  <div class="logo">IPLStats</div>
+</nav>
+
+<h2 style="text-align:center;">Points Table</h2>
+
+<table id="pointsTable">
+  <thead>
+    <tr>
+      <th>Team</th><th>Matches</th><th>Wins</th><th>Losses</th><th>Points</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<footer>
+  <p>Official IPL website: <a href="https://www.iplt20.com" target="_blank" style="color:#fff">IPL T20</a></p>
+  <p>Contact: support@iplstats.com</p>
+  <p>Copyright © 2026 IPLStats</p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+const points = [
+  {team:"MI", matches:8, wins:5, losses:3, points:10},
+  {team:"CSK", matches:8, wins:6, losses:2, points:12},
+  {team:"RCB", matches:8, wins:4, losses:4, points:8},
+  {team:"KKR", matches:8, wins:3, losses:5, points:6},
+];
+
+const tbodyPoints = document.querySelector("#pointsTable tbody");
+points.sort((a,b)=>b.points-a.points);
+points.forEach(p=>{
+  const tr = document.createElement("tr");
+  tr.innerHTML=`<td>${p.team}</td><td>${p.matches}</td><td>${p.wins}</td><td>${p.losses}</td><td>${p.points}</td>`;
+  tbodyPoints.appendChild(tr);
+});
+</script>
+</body>
+</html>

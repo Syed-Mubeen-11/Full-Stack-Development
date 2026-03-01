@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IPLStats - Home</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav id="navbar">
+  <div class="logo">IPLStats</div>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="teams.html">Teams</a></li>
+    <li><a href="players.html">Players</a></li>
+    <li><a href="matches.html">Matches</a></li>
+    <li><a href="points.html">Points Table</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="auth-buttons">
+    <button id="loginBtn" onclick="location.href='login.html'">Login</button>
+    <button id="signupBtn" onclick="location.href='signup.html'">Signup</button>
+    <button id="logoutBtn" style="display:none;">Logout</button>
+  </div>
+</nav>
+
+<h2>Welcome to IPLStats</h2>
+<p style="text-align:center;">Your IPL Management Portal</p>
+
+<section style="max-width:800px; margin:20px auto;">
+  <h3>Featured Teams</h3>
+  <div id="featuredTeams" style="display:flex; gap:20px; justify-content:center;"></div>
+
+  <h3>Upcoming Matches</h3>
+  <div id="upcomingMatches" style="display:flex; gap:20px; flex-wrap:wrap; justify-content:center;"></div>
+</section>
+
+<footer>
+  <p>Official IPL website: <a href="https://www.iplt20.com" target="_blank" style="color:#fff">IPL T20</a></p>
+  <p>Contact: support@iplstats.com</p>
+  <p>Copyright © 2026 IPLStats</p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+// Sample data
+const teams = [
+  {name:"Mumbai Indians", captain:"Rohit Sharma", home:"Wankhede Stadium", wins:5, matches:8, logo:"assets/images/mi.png"},
+  {name:"Chennai Super Kings", captain:"MS Dhoni", home:"M. A. Chidambaram", wins:6, matches:8, logo:"assets/images/csk.png"},
+];
+
+const matches = [
+  {date:"2026-03-05", time:"7:30 PM", team1:"MI", team2:"CSK", venue:"Wankhede", result:"Upcoming"},
+  {date:"2026-03-07", time:"7:30 PM", team1:"RCB", team2:"KKR", venue:"M Chinnaswamy", result:"Upcoming"},
+];
+
+// Render featured teams
+const featuredDiv = document.getElementById("featuredTeams");
+teams.forEach(t=>{
+  const div = document.createElement("div");
+  div.style.textAlign="center";
+  div.innerHTML=`<img src="${t.logo}" style="width:100px"><h4>${t.name}</h4><p>Captain: ${t.captain}</p>`;
+  featuredDiv.appendChild(div);
+});
+
+// Render upcoming matches
+const upcomingDiv = document.getElementById("upcomingMatches");
+matches.forEach(m=>{
+  const div = document.createElement("div");
+  div.style.border="1px solid #ccc"; div.style.padding="10px"; div.style.borderRadius="5px";
+  div.innerHTML=`<p>${m.date} ${m.time}</p><p>${m.team1} vs ${m.team2}</p><p>${m.venue}</p><p>${m.result}</p>`;
+  upcomingDiv.appendChild(div);
+});
+</script>
+</body>
+</html>

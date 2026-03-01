@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Signup - MyLibrary</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav id="navbar">
+  <div class="logo">MyLibrary</div>
+</nav>
+
+<form id="signupForm">
+  <h2>Signup</h2>
+  <input type="text" id="fullName" placeholder="Full Name" required>
+  <input type="email" id="email" placeholder="Email" required>
+  <input type="password" id="password" placeholder="Password" required>
+  <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+  <button type="submit">Signup</button>
+</form>
+
+<script src="js/main.js"></script>
+<script>
+const signupForm = document.getElementById("signupForm");
+signupForm.addEventListener("submit",(e)=>{
+  e.preventDefault();
+  const fullName = document.getElementById("fullName").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+
+  if(!fullName || !email || !password || !confirmPassword) return alert("All fields required");
+  if(!/\S+@\S+\.\S+/.test(email)) return alert("Invalid email");
+  if(password!==confirmPassword) return alert("Passwords do not match");
+
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  if(users.find(u=>u.email===email)) return alert("Email already registered");
+
+  users.push({fullName,email,password});
+  localStorage.setItem("users", JSON.stringify(users));
+  alert("Signup successful!");
+  window.location.href="login.html";
+});
+</script>
+</body>
+</html>

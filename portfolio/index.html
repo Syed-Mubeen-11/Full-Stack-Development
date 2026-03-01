@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mubeen's Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <nav>
+      <div class="logo">Mubeen</div>
+      <ul class="nav-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="burger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero">
+    <div class="hero-content">
+      <h1>Hello, I'm Mubeen</h1>
+      <h2><span class="typed-text"></span><span class="cursor">|</span></h2>
+      <p>Building modern, responsive, and interactive websites.</p>
+      <a href="#projects" class="btn">View My Work</a>
+    </div>
+  </section>
+
+  <!-- About Me -->
+  <section id="about" class="about">
+    <h2>About Me</h2>
+    <div class="about-content">
+      <div class="about-text">
+        <p>I am a passionate web developer with experience in HTML, CSS, JavaScript, and modern frameworks. I enjoy building clean and user-friendly interfaces.</p>
+        <p>Currently, I am exploring advanced JavaScript, React, and backend technologies to become a full-stack developer.</p>
+      </div>
+      <div class="about-image">
+        <img src="https://via.placeholder.com/250" alt="Mubeen">
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills" class="skills">
+    <h2>My Skills</h2>
+    <div class="skills-container">
+      <div class="skill">
+        <h3>HTML</h3>
+        <div class="skill-bar">
+          <div class="skill-level" style="width: 95%"></div>
+        </div>
+      </div>
+      <div class="skill">
+        <h3>CSS</h3>
+        <div class="skill-bar">
+          <div class="skill-level" style="width: 90%"></div>
+        </div>
+      </div>
+      <div class="skill">
+        <h3>JavaScript</h3>
+        <div class="skill-bar">
+          <div class="skill-level" style="width: 85%"></div>
+        </div>
+      </div>
+      <div class="skill">
+        <h3>React</h3>
+        <div class="skill-bar">
+          <div class="skill-level" style="width: 80%"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="projects">
+    <h2>Projects</h2>
+    <div class="project-cards">
+      <div class="project-card" onclick="openModal('modal1')">
+        <h3>Mini Banking System</h3>
+        <p>Java & MySQL project managing bank accounts.</p>
+      </div>
+      <div class="project-card" onclick="openModal('modal2')">
+        <h3>Digital Certificate Generator</h3>
+        <p>Create certificates using HTML, CSS & JS.</p>
+      </div>
+      <div class="project-card" onclick="openModal('modal3')">
+        <h3>Portfolio Website</h3>
+        <p>My responsive personal portfolio.</p>
+      </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="modal1" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('modal1')">&times;</span>
+        <h3>Mini Banking System</h3>
+        <p>A Java & MySQL project that allows users to create accounts, check balance, transfer funds, and view transaction history.</p>
+      </div>
+    </div>
+    <div id="modal2" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('modal2')">&times;</span>
+        <h3>Digital Certificate Generator</h3>
+        <p>A web application where admins can create and download certificates dynamically.</p>
+      </div>
+    </div>
+    <div id="modal3" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('modal3')">&times;</span>
+        <h3>Portfolio Website</h3>
+        <p>My own portfolio website built using HTML, CSS, and JavaScript, featuring projects, skills, and contact form.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience / Education -->
+  <section id="experience" class="experience">
+    <h2>Experience & Education</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <h3>Internship at Cogzifyz Technology</h3>
+        <span>nov 2025 - dec 2025</span>
+        <p>Worked on web development projects using JavaScript and React.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>Bachelor's in Computer Science</h3>
+        <span>2023 - 2027</span>
+        <p>Completed degree with focus on programming and software development.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="contact">
+    <h2>Contact Me</h2>
+    <form id="contact-form">
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Mubeen | All Rights Reserved</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

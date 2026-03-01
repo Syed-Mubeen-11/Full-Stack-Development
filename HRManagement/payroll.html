@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HRPro - Payroll</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav id="navbar">
+    <div class="logo">HRPro</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="employees.html">Employees</a></li>
+      <li><a href="attendance.html">Attendance</a></li>
+      <li><a href="payroll.html" class="active">Payroll</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="auth-buttons">
+      <button id="loginBtn">Login</button>
+      <button id="signupBtn" onclick="location.href='signup.html'">Signup</button>
+      <button id="logoutBtn" style="display:none;">Logout</button>
+    </div>
+  </nav>
+
+  <h2 style="text-align:center; margin-top:20px;">Payroll</h2>
+
+  <form id="payrollForm" style="max-width:400px; margin:20px auto;">
+    <select id="payEmployee" required></select>
+    <input type="number" id="basicSalary" placeholder="Basic Salary" required>
+    <input type="number" id="allowances" placeholder="Allowances" value="0">
+    <input type="number" id="deductions" placeholder="Deductions" value="0">
+    <button type="submit">Add / Update Payroll</button>
+  </form>
+
+  <table id="payrollTable">
+    <thead>
+      <tr>
+        <th>Employee</th>
+        <th>Basic</th>
+        <th>Allowances</th>
+        <th>Deductions</th>
+        <th>Net Salary</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <footer>
+    <p>Company Address: 123 HRPro Street, City</p>
+    <p>Working Days: Mon-Fri | Timings: 9am - 6pm</p>
+    <p>Support: hr@hrpro.com</p>
+    <p>Copyright © 2026 HRPro</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    let employees = JSON.parse(localStorage.getItem("employees")) || [];
+    let payrolls = JSON.parse(localStorage.getItem("payroll")) || [];
+    const paySelect = document.getElementById("payEmployee");
+    const tableBody = document.querySelector("#payrollTable tbody");
+
+    function populateEmployeeOptions(){
+      paySelect.innerHTML = '<option value="">Select Employee</option>';
+      employees.forEach(emp=>{
+        paySelect.innerHTML += `<option value="${emp.name}">${emp.name}</option>`;
+      });
+    }
+
+    function renderTable(){
+      tableBody.innerHTML = "";
+      payrolls.forEach((p, index)=>{
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${p.name}</td>
+          <td>${p.basic}</td>
+          <td>${p.allowances}</td>
+          <td>${p.deductions}</td>
+          <td>${p.netSalary}</td>
+          <td>
+            <button onclick="viewSlip(${index})">Salary Slip</button>
+            <button onclick="editPayroll(${index})">Edit</button>
+            <button onclick="deletePayroll(${index})">Delete</button>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function editPayroll(index){
+      const p = payrolls[index];
+      document.getElementById("payEmployee").value = p.name;
+      document.getElementById("basicSalary").value = p.basic;
+      document.getElementById("allowances").value = p.allowances;
+      document.getElementById("deductions").value = p.deductions;
+      payrolls.splice(index,1);
+      localStorage.setItem("payroll",JSON.stringify(payrolls));
+      renderTable();
+    }
+
+    function deletePayroll(index){
+      if(confirm("Delete this payroll record?")){
+        payrolls.splice(index,1);
+        localStorage.setItem("payroll",JSON.stringify(payrolls));
+        renderTable();
+      }
+    }
+
+    function viewSlip(index){
+      const p = payrolls[index];
+      alert(`Salary Slip\n\nEmployee: ${p.name}\nBasic: ${p.basic}\nAllowances: ${p.allowances}\nDeductions: ${p.deductions}\nNet Salary: ${p.netSalary}`);
+    }
+
+    document.getElementById("payrollForm").addEventListener("submit",(e)=>{
+      e.preventDefault();
+      const name = paySelect.value;
+      const basic = parseFloat(document.getElementById("basicSalary").value) || 0;
+      const allowances = parseFloat(document.getElementById("allowances").value) || 0;
+      const deductions = parseFloat(document.getElementById("deductions").value) || 0;
+      const netSalary = basic + allowances - deductions;
+
+      if(!name) return alert("Select employee");
+
+      payrolls.push({name,basic,allowances,deductions,netSalary});
+      localStorage.setItem("payroll",JSON.stringify(payrolls));
+      renderTable();
+      document.getElementById("payrollForm").reset();
+    });
+
+    populateEmployeeOptions();
+    renderTable();
+  </script>
+</body>
+</html>
