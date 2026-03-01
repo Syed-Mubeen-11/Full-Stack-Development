@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Issued Books - MyLibrary</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav id="navbar">
+  <div class="logo">MyLibrary</div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="books.html">Books</a></li>
+    <li><a href="issued.html" class="active">Issued Books</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="auth-buttons">
+    <button id="loginBtn" onclick="location.href='login.html'">Login</button>
+    <button id="signupBtn" onclick="location.href='signup.html'">Signup</button>
+    <button id="logoutBtn" style="display:none;">Logout</button>
+  </div>
+</nav>
+
+<h2 style="text-align:center;">Your Issued Books</h2>
+
+<table id="issuedTable">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Category</th>
+      <th>Issue Date</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<footer>
+  <p>Library Address: 123 Library Lane, City</p>
+  <p>Working Days: Mon-Fri | 9am-6pm</p>
+  <p>Support: support@mylibrary.com</p>
+  <p>Copyright © 2026 MyLibrary</p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+const tableBody = document.querySelector("#issuedTable tbody");
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+if(!currentUser) alert("Please login to view your issued books");
+
+function renderIssued(){
+  let issuedBooks = JSON.parse(localStorage.getItem("issuedBooks")) || [];
+  issuedBooks = issuedBooks.filter(b=>b.user===currentUser.email);
+  tableBody.innerHTML="";
+  if(issuedBooks.length===0){
+    tableBody.innerHTML="<tr><td colspan='5'>No books issued</td></tr>";
+  } else {
+    issuedBooks.forEach((b,i)=>{
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${b.title}</td>
+        <td>${b.author}</td>
+        <td>${b.category}</td>
+        <td>${b.issueDate}</td>
+        <td><button onclick="returnBook(${i})">Return</button></td>
+      `;
+      tableBody.appendChild(tr);
+    });
+  }
+}
+
+function returnBook(index){
+  let issuedBooks = JSON.parse(localStorage.getItem("issuedBooks")) || [];
+  let userIssued = issuedBooks.filter(b=>b.user===currentUser.email);
+  let book = userIssued[index];
+
+  // Update books availability
+  let books = JSON.parse(localStorage.getItem("books"));
+  let originalBook = books.find(b=>b.id===book.id);
+  originalBook.availability="Available";
+  localStorage.setItem("books",JSON.stringify(books));
+
+  // Remove from issued
+  let updatedIssued = issuedBooks.filter(b=>!(b.user===currentUser.email && b.id===book.id));
+  localStorage.setItem("issuedBooks",JSON.stringify(updatedIssued));
+  renderIssued();
+  alert(`Book "${book.title}" returned successfully!`);
+}
+
+renderIssued();
+</script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Players - IPLStats</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav id="navbar">
+  <div class="logo">IPLStats</div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="teams.html">Teams</a></li>
+    <li><a href="players.html" class="active">Players</a></li>
+    <li><a href="matches.html">Matches</a></li>
+    <li><a href="points.html">Points Table</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<h2 style="text-align:center;">IPL Players</h2>
+
+<input type="text" id="searchPlayer" placeholder="Search by name or team" style="display:block; margin:10px auto; padding:8px; width:300px;">
+<select id="filterRole" style="display:block; margin:10px auto; padding:8px; width:200px;">
+  <option value="">All Roles</option>
+  <option value="Batsman">Batsman</option>
+  <option value="Bowler">Bowler</option>
+  <option value="All-Rounder">All-Rounder</option>
+</select>
+
+<table id="playersTable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Team</th>
+      <th>Role</th>
+      <th>Matches</th>
+      <th>Runs</th>
+      <th>Wickets</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<footer>
+  <p>Official IPL website: <a href="https://www.iplt20.com" target="_blank" style="color:#fff">IPL T20</a></p>
+  <p>Contact: support@iplstats.com</p>
+  <p>Copyright © 2026 IPLStats</p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+// Sample players
+const players = [
+  {name:"Rohit Sharma", team:"Mumbai Indians", role:"Batsman", matches:8, runs:300, wickets:0},
+  {name:"Jasprit Bumrah", team:"Mumbai Indians", role:"Bowler", matches:8, runs:5, wickets:12},
+  {name:"MS Dhoni", team:"Chennai Super Kings", role:"Wicket-Keeper", matches:8, runs:250, wickets:0},
+  {name:"Ravindra Jadeja", team:"CSK", role:"All-Rounder", matches:8, runs:200, wickets:8},
+];
+
+const tbodyPlayers = document.querySelector("#playersTable tbody");
+
+function renderPlayers(){
+  const search = document.getElementById("searchPlayer").value.toLowerCase();
+  const role = document.getElementById("filterRole").value;
+  tbodyPlayers.innerHTML="";
+  players.filter(p=>{
+    return (p.name.toLowerCase().includes(search) || p.team.toLowerCase().includes(search)) &&
+           (role==="" || p.role===role);
+  }).forEach(p=>{
+    const tr = document.createElement("tr");
+    tr.innerHTML=`<td>${p.name}</td><td>${p.team}</td><td>${p.role}</td><td>${p.matches}</td><td>${p.runs}</td><td>${p.wickets}</td>`;
+    tbodyPlayers.appendChild(tr);
+  });
+}
+
+document.getElementById("searchPlayer").addEventListener("input", renderPlayers);
+document.getElementById("filterRole").addEventListener("change", renderPlayers);
+
+renderPlayers();
+</script>
+</body>
+</html>

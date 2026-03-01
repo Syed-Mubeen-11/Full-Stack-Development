@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Contact - IPLStats</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav id="navbar"><div class="logo">IPLStats</div></nav>
+
+<form id="contactForm">
+<h2>Contact Us</h2>
+<input type="text" id="contactName" placeholder="Your Name" required>
+<input type="email" id="contactEmail" placeholder="Your Email" required>
+<textarea id="contactMessage" placeholder="Your Message" rows="5" required></textarea>
+<button type="submit">Send Message</button>
+</form>
+
+<footer>
+<p>Official IPL website: <a href="https://www.iplt20.com" target="_blank" style="color:#fff">IPL T20</a></p>
+<p>Contact: support@iplstats.com</p>
+<p>Copyright © 2026 IPLStats</p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+document.getElementById("contactForm").addEventListener("submit", e=>{
+  e.preventDefault();
+  const name=document.getElementById("contactName").value.trim();
+  const email=document.getElementById("contactEmail").value.trim();
+  const message=document.getElementById("contactMessage").value.trim();
+  if(!name||!email||!message) return alert("All fields required");
+  if(!/\S+@\S+\.\S+/.test(email)) return alert("Invalid email");
+  alert("Message sent successfully!");
+  e.target.reset();
+});
+</script>
+</body>
+</html>

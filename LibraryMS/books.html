@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Books - MyLibrary</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav id="navbar">
+  <div class="logo">MyLibrary</div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="books.html" class="active">Books</a></li>
+    <li><a href="issued.html">Issued Books</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="auth-buttons">
+    <button id="loginBtn" onclick="location.href='login.html'">Login</button>
+    <button id="signupBtn" onclick="location.href='signup.html'">Signup</button>
+    <button id="logoutBtn" style="display:none;">Logout</button>
+  </div>
+</nav>
+
+<h2 style="text-align:center;">Library Books</h2>
+
+<div style="max-width:800px; margin:10px auto;">
+  <input type="text" id="searchBook" placeholder="Search by title or author">
+  <select id="filterCategory">
+    <option value="">All Categories</option>
+  </select>
+</div>
+
+<table id="booksTable">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Category</th>
+      <th>Availability</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<footer>
+  <p>Library Address: 123 Library Lane, City</p>
+  <p>Working Days: Mon-Fri | 9am-6pm</p>
+  <p>Support: support@mylibrary.com</p>
+  <p>Copyright © 2026 MyLibrary</p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+let books = JSON.parse(localStorage.getItem("books")) || [];
+
+// Sample books if localStorage is empty
+if(books.length===0){
+  books = [
+    {id:1,title:"The Alchemist",author:"Paulo Coelho",category:"Fiction",availability:"Available"},
+    {id:2,title:"A Brief History of Time",author:"Stephen Hawking",category:"Science",availability:"Available"},
+    {id:3,title:"Sapiens",author:"Yuval Noah Harari",category:"History",availability:"Available"}
+  ];
+  localStorage.setItem("books",JSON.stringify(books));
+}
+
+const tableBody = document.querySelector("#booksTable tbody");
+const searchBook = document.getElementById("searchBook");
+const filterCategory = document.getElementById("filterCategory");
+
+// Populate category filter dynamically
+let categories = [...new Set(books.map(b=>b.category))];
+categories.forEach(c=>{
+  filterCategory.innerHTML += `<option value="${c}">${c}</option>`;
+});
+
+function renderBooks(){
+  let filteredBooks = books.filter(b=>{
+    let search = searchBook.value.toLowerCase();
+    let category = filterCategory.value;
+    return (b.title.toLowerCase().includes(search) || b.author.toLowerCase().includes(search)) &&
+           (category==="" || b.category===category);
+  });
+
+  tableBody.innerHTML="";
+  filteredBooks.forEach(book=>{
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${book.title}</td>
+      <td>${book.author}</td>
+      <td>${book.category}</td>
+      <td>${book.availability}</td>
+      <td><button ${book.availability==="Issued"?"disabled":""} onclick="issueBook(${book.id})">Issue</button></td>
+    `;
+    tableBody.appendChild(tr);
+  });
+}
+
+function issueBook(id){
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  if(!currentUser) return alert("Please login to issue a book");
+
+  let book = books.find(b=>b.id===id);
+  if(book.availability==="Available"){
+    book.availability="Issued";
+    let issuedBooks = JSON.parse(localStorage.getItem("issuedBooks")) || [];
+    issuedBooks.push({user:currentUser.email, ...book, issueDate:new Date().toISOString().split('T')[0]});
+    localStorage.setItem("issuedBooks",JSON.stringify(issuedBooks));
+    localStorage.setItem("books",JSON.stringify(books));
+    renderBooks();
+    alert(`Book "${book.title}" issued successfully!`);
+  }
+}
+
+searchBook.addEventListener("input",renderBooks);
+filterCategory.addEventListener("change",renderBooks);
+
+renderBooks();
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HRPro - Signup</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav id="navbar">
+    <div class="logo">HRPro</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="employees.html">Employees</a></li>
+      <li><a href="attendance.html">Attendance</a></li>
+      <li><a href="payroll.html">Payroll</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="auth-buttons">
+      <button id="loginBtn" onclick="location.href='login.html'">Login</button>
+      <button id="signupBtn">Signup</button>
+      <button id="logoutBtn" style="display:none;">Logout</button>
+    </div>
+  </nav>
+
+  <form id="signupForm">
+    <h2>Signup</h2>
+    <input type="text" id="fullName" placeholder="Full Name">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <input type="password" id="confirmPassword" placeholder="Confirm Password">
+    <select id="role">
+      <option value="">Select Role</option>
+      <option value="Employee">Employee</option>
+      <option value="HR">HR</option>
+    </select>
+    <input type="text" id="contact" placeholder="Contact Number">
+    <button type="submit">Signup</button>
+  </form>
+
+  <footer>
+    <p>Company Address: 123 HRPro Street, City</p>
+    <p>Working Days: Mon-Fri | Timings: 9am - 6pm</p>
+    <p>Support: hr@hrpro.com</p>
+    <p>Copyright © 2026 HRPro</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    const signupForm = document.getElementById("signupForm");
+
+    signupForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const fullName = document.getElementById("fullName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      const role = document.getElementById("role").value;
+      const contact = document.getElementById("contact").value.trim();
+
+      if(!fullName || !email || !password || !confirmPassword || !role || !contact){
+        alert("All fields are required");
+        return;
+      }
+      if(!/\S+@\S+\.\S+/.test(email)){
+        alert("Invalid email");
+        return;
+      }
+      if(password!==confirmPassword){
+        alert("Passwords do not match");
+        return;
+      }
+      if(!/^\d{10}$/.test(contact)){
+        alert("Invalid contact number");
+        return;
+      }
+
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+      if(users.some(u=>u.email===email)){
+        alert("Email already registered");
+        return;
+      }
+
+      users.push({fullName,email,password,role,contact});
+      localStorage.setItem("users", JSON.stringify(users));
+      alert("Signup successful!");
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>

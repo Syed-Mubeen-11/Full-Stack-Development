@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Matches - IPLStats</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav id="navbar">
+  <div class="logo">IPLStats</div>
+</nav>
+
+<h2 style="text-align:center;">IPL Matches</h2>
+
+<select id="filterTeam" style="display:block; margin:10px auto; padding:8px; width:250px;">
+  <option value="">All Teams</option>
+  <option value="MI">Mumbai Indians</option>
+  <option value="CSK">Chennai Super Kings</option>
+  <option value="RCB">Royal Challengers Bangalore</option>
+  <option value="KKR">Kolkata Knight Riders</option>
+</select>
+
+<table id="matchesTable">
+  <thead>
+    <tr>
+      <th>Date & Time</th>
+      <th>Teams</th>
+      <th>Venue</th>
+      <th>Result</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<footer>
+  <p>Official IPL website: <a href="https://www.iplt20.com" target="_blank" style="color:#fff">IPL T20</a></p>
+  <p>Contact: support@iplstats.com</p>
+  <p>Copyright © 2026 IPLStats</p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+const matches = [
+  {date:"2026-03-05", time:"7:30 PM", team1:"MI", team2:"CSK", venue:"Wankhede", result:"Upcoming"},
+  {date:"2026-03-07", time:"7:30 PM", team1:"RCB", team2:"KKR", venue:"M Chinnaswamy", result:"Upcoming"},
+  {date:"2026-03-08", time:"7:30 PM", team1:"MI", team2:"RCB", venue:"Wankhede", result:"MI won"},
+];
+
+const tbodyMatches = document.querySelector("#matchesTable tbody");
+const filterTeam = document.getElementById("filterTeam");
+
+function renderMatches(){
+  const team = filterTeam.value;
+  tbodyMatches.innerHTML="";
+  matches.filter(m=>team==="" || m.team1===team || m.team2===team)
+         .forEach(m=>{
+           const tr = document.createElement("tr");
+           tr.innerHTML=`<td>${m.date} ${m.time}</td><td>${m.team1} vs ${m.team2}</td><td>${m.venue}</td><td>${m.result}</td>`;
+           tbodyMatches.appendChild(tr);
+         });
+}
+
+filterTeam.addEventListener("change", renderMatches);
+
+renderMatches();
+</script>
+</body>
+</html>

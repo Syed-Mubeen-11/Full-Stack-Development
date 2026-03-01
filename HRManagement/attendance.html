@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HRPro - Attendance</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav id="navbar">
+    <div class="logo">HRPro</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="employees.html">Employees</a></li>
+      <li><a href="attendance.html" class="active">Attendance</a></li>
+      <li><a href="payroll.html">Payroll</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="auth-buttons">
+      <button id="loginBtn">Login</button>
+      <button id="signupBtn" onclick="location.href='signup.html'">Signup</button>
+      <button id="logoutBtn" style="display:none;">Logout</button>
+    </div>
+  </nav>
+
+  <h2 style="text-align:center; margin-top:20px;">Attendance</h2>
+
+  <form id="attendanceForm" style="max-width:400px; margin:20px auto;">
+    <select id="attEmployee" required></select>
+    <select id="attStatus" required>
+      <option value="">Select Status</option>
+      <option value="Present">Present</option>
+      <option value="Absent">Absent</option>
+    </select>
+    <button type="submit">Mark Attendance</button>
+  </form>
+
+  <table id="attendanceTable">
+    <thead>
+      <tr>
+        <th>Employee Name</th>
+        <th>Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <footer>
+    <p>Company Address: 123 HRPro Street, City</p>
+    <p>Working Days: Mon-Fri | Timings: 9am - 6pm</p>
+    <p>Support: hr@hrpro.com</p>
+    <p>Copyright © 2026 HRPro</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    let employees = JSON.parse(localStorage.getItem("employees")) || [];
+    let attendance = JSON.parse(localStorage.getItem("attendance")) || [];
+    const empSelect = document.getElementById("attEmployee");
+    const tableBody = document.querySelector("#attendanceTable tbody");
+
+    function populateEmployeeOptions(){
+      empSelect.innerHTML = '<option value="">Select Employee</option>';
+      employees.forEach(emp=>{
+        empSelect.innerHTML += `<option value="${emp.name}">${emp.name}</option>`;
+      });
+    }
+
+    function renderTable(){
+      tableBody.innerHTML = "";
+      attendance.forEach(att=>{
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${att.name}</td><td>${att.date}</td><td>${att.status}</td>`;
+        tableBody.appendChild(row);
+      });
+    }
+
+    document.getElementById("attendanceForm").addEventListener("submit",(e)=>{
+      e.preventDefault();
+      const empName = empSelect.value;
+      const status = document.getElementById("attStatus").value;
+      if(!empName || !status) return alert("Select employee and status");
+      const date = new Date().toISOString().split("T")[0];
+      attendance.push({name:empName,date,status});
+      localStorage.setItem("attendance",JSON.stringify(attendance));
+      renderTable();
+    });
+
+    populateEmployeeOptions();
+    renderTable();
+  </script>
+</body>
+</html>

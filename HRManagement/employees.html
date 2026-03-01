@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HRPro - Employees</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav id="navbar">
+    <div class="logo">HRPro</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="employees.html" class="active">Employees</a></li>
+      <li><a href="attendance.html">Attendance</a></li>
+      <li><a href="payroll.html">Payroll</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="auth-buttons">
+      <button id="loginBtn">Login</button>
+      <button id="signupBtn" onclick="location.href='signup.html'">Signup</button>
+      <button id="logoutBtn" style="display:none;">Logout</button>
+    </div>
+  </nav>
+
+  <h2 style="text-align:center; margin-top:20px;">Employees</h2>
+
+  <form id="addEmployeeForm">
+    <h3>Add / Edit Employee</h3>
+    <input type="text" id="empName" placeholder="Employee Name" required>
+    <input type="text" id="empId" placeholder="Employee ID" required>
+    <input type="text" id="department" placeholder="Department" required>
+    <select id="empRole" required>
+      <option value="">Select Role</option>
+      <option value="Employee">Employee</option>
+      <option value="HR">HR</option>
+    </select>
+    <input type="text" id="empContact" placeholder="Contact Number" required>
+    <select id="empStatus" required>
+      <option value="">Select Status</option>
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+    </select>
+    <button type="submit">Add / Update Employee</button>
+  </form>
+
+  <input type="text" id="searchEmployee" placeholder="Search by Name or Department" style="width:95%; margin:10px auto; display:block; padding:8px;">
+
+  <table id="employeeTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>ID</th>
+        <th>Department</th>
+        <th>Role</th>
+        <th>Contact</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+  <footer>
+    <p>Company Address: 123 HRPro Street, City</p>
+    <p>Working Days: Mon-Fri | Timings: 9am - 6pm</p>
+    <p>Support: hr@hrpro.com</p>
+    <p>Copyright © 2026 HRPro</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    let employees = JSON.parse(localStorage.getItem("employees")) || [];
+    const form = document.getElementById("addEmployeeForm");
+    const tableBody = document.querySelector("#employeeTable tbody");
+
+    function renderTable(data){
+      tableBody.innerHTML = "";
+      data.forEach((emp, index)=>{
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${emp.name}</td>
+          <td>${emp.id}</td>
+          <td>${emp.department}</td>
+          <td>${emp.role}</td>
+          <td>${emp.contact}</td>
+          <td>${emp.status}</td>
+          <td>
+            <button onclick="editEmployee(${index})">Edit</button>
+            <button onclick="deleteEmployee(${index})">Delete</button>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function editEmployee(index){
+      const emp = employees[index];
+      document.getElementById("empName").value = emp.name;
+      document.getElementById("empId").value = emp.id;
+      document.getElementById("department").value = emp.department;
+      document.getElementById("empRole").value = emp.role;
+      document.getElementById("empContact").value = emp.contact;
+      document.getElementById("empStatus").value = emp.status;
+
+      // remove old employee
+      employees.splice(index,1);
+      localStorage.setItem("employees", JSON.stringify(employees));
+      renderTable(employees);
+    }
+
+    function deleteEmployee(index){
+      if(confirm("Are you sure to delete?")){
+        employees.splice(index,1);
+        localStorage.setItem("employees", JSON.stringify(employees));
+        renderTable(employees);
+      }
+    }
+
+    form.addEventListener("submit",(e)=>{
+      e.preventDefault();
+      const newEmp = {
+        name: document.getElementById("empName").value.trim(),
+        id: document.getElementById("empId").value.trim(),
+        department: document.getElementById("department").value.trim(),
+        role: document.getElementById("empRole").value,
+        contact: document.getElementById("empContact").value.trim(),
+        status: document.getElementById("empStatus").value
+      };
+      employees.push(newEmp);
+      localStorage.setItem("employees", JSON.stringify(employees));
+      renderTable(employees);
+      form.reset();
+    });
+
+    document.getElementById("searchEmployee").addEventListener("input",(e)=>{
+      const term = e.target.value.toLowerCase();
+      const filtered = employees.filter(emp=> emp.name.toLowerCase().includes(term) || emp.department.toLowerCase().includes(term));
+      renderTable(filtered);
+    });
+
+    renderTable(employees);
+  </script>
+</body>
+</html>
