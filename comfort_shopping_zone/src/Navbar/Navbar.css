@@ -1,0 +1,33 @@
+.menu-items {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 12px 20px;
+  background-color: #fc9f6d6c; 
+  border-bottom: 1px solid #ddd;
+}
+
+.boxes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.boxes img {
+  border-radius: 50%;
+  border-style: solid;
+  height: 50px;
+  width: 50px;
+  object-fit: contain;
+  margin-bottom: 5px;
+}
+.menu {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+.boxes:hover .menu,
+.menu-items .menu:hover {
+  color: #2874f0;
+}
